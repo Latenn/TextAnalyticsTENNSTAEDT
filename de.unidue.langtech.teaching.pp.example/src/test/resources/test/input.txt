@@ -1,3 +1,4 @@
-EN#Peter went into the office before they arrived there. Peter thought his look would be great.
+EN#Peter went into the office before they arrived there
 FR#Si tu finis tes devoirs, je te donnerai des bonbons
 DE#Das ist ein schon recht langes deutsches Beispiel
+Unknown#Dieses Beispiel nicht bekannt
