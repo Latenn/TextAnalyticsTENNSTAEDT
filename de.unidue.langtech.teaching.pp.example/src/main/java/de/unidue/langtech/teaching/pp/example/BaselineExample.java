@@ -2,6 +2,7 @@ package de.unidue.langtech.teaching.pp.example;
 
 import java.util.Collection;
 
+
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.util.JCasUtil;
@@ -9,6 +10,7 @@ import org.apache.uima.jcas.JCas;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
 
 /**
  * The baseline always identifies "EN" as the document language.
@@ -19,6 +21,10 @@ import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
 public class BaselineExample
     extends JCasAnnotator_ImplBase
 {
+public static final String PARAM_MESSAGE = "PARAM_MESSAGE";
+@ConfigurationParameter(name = PARAM_MESSAGE, mandatory = true, defaultValue = "Hello everyone")
+protected String message; 
+
 
     @Override
     public void process(JCas jcas)
@@ -50,5 +56,7 @@ public class BaselineExample
         }
     
         languageAnno.addToIndexes();
+        
+        System.out.println(message);
     }
 }

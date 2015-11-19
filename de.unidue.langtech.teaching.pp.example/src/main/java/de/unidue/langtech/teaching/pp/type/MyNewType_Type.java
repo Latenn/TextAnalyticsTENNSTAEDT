@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Sep 04 09:09:22 CEST 2014 */
+/* First created by JCasGen Thu Nov 19 10:58:12 CET 2015 */
 package de.unidue.langtech.teaching.pp.type;
 
 import org.apache.uima.jcas.JCas;
@@ -16,7 +16,7 @@ import org.apache.uima.jcas.tcas.Annotation_Type;
 /** 
  * Updated by JCasGen Thu Nov 19 11:29:00 CET 2015
  * @generated */
-public class MyType_Type extends Annotation_Type {
+public class MyNewType_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -26,25 +26,25 @@ public class MyType_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (MyType_Type.this.useExistingInstance) {
+  			 if (MyNewType_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = MyType_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = MyNewType_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new MyType(addr, MyType_Type.this);
-  			   MyType_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new MyNewType(addr, MyNewType_Type.this);
+  			   MyNewType_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new MyType(addr, MyType_Type.this);
+        } else return new MyNewType(addr, MyNewType_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = MyType.typeIndexID;
+  public final static int typeIndexID = MyNewType.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("de.unidue.langtech.teaching.pp.type.MyType");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("de.unidue.langtech.teaching.pp.type.MyNewType");
  
   /** @generated */
   final Feature casFeat_countLetterE;
@@ -56,7 +56,7 @@ public class MyType_Type extends Annotation_Type {
    */ 
   public int getCountLetterE(int addr) {
         if (featOkTst && casFeat_countLetterE == null)
-      jcas.throwFeatMissing("countLetterE", "de.unidue.langtech.teaching.pp.type.MyType");
+      jcas.throwFeatMissing("countLetterE", "de.unidue.langtech.teaching.pp.type.MyNewType");
     return ll_cas.ll_getIntValue(addr, casFeatCode_countLetterE);
   }
   /** @generated
@@ -65,7 +65,7 @@ public class MyType_Type extends Annotation_Type {
    */    
   public void setCountLetterE(int addr, int v) {
         if (featOkTst && casFeat_countLetterE == null)
-      jcas.throwFeatMissing("countLetterE", "de.unidue.langtech.teaching.pp.type.MyType");
+      jcas.throwFeatMissing("countLetterE", "de.unidue.langtech.teaching.pp.type.MyNewType");
     ll_cas.ll_setIntValue(addr, casFeatCode_countLetterE, v);}
     
   
@@ -77,7 +77,7 @@ public class MyType_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public MyType_Type(JCas jcas, Type casType) {
+  public MyNewType_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
