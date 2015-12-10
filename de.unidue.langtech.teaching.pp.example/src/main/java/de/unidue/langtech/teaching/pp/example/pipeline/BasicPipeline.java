@@ -12,6 +12,9 @@ import de.unidue.langtech.teaching.pp.example.BaselineExample;
 import de.unidue.langtech.teaching.pp.example.EvaluatorExample;
 import de.unidue.langtech.teaching.pp.example.ReaderExample;
 import de.unidue.langtech.teaching.pp.example.newType.LetterAnnotator;
+import de.unidue.langtech.teaching.pp.ownReaderTest.NewReader;
+import de.unidue.langtech.teaching.pp.ownReaderTest.NewReaderSolution;
+import de.unidue.langtech.teaching.pp.ownReaderTest.NewReaderTest;
 
 public class BasicPipeline
 {

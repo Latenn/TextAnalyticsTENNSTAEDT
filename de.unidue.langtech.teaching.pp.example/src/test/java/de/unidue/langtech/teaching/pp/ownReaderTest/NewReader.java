@@ -40,6 +40,33 @@ public class NewReader
     public boolean hasNext()
         throws IOException, CollectionException
     {
+    	int sentenceCounter = 0;
+    	for (int i = 0; i < lines.size(); i++){
+    		if (lines.get(i).isEmpty() == true){
+    			sentenceCounter++;
+    		}
+    	}
+    	
+    	int[][] sentenceIndexes = new int[sentenceCounter][2];
+    	
+    	int sentenceBeginningCounter = 0;
+    	int indexCounter = 0;
+    	for (int i = 0; i < lines.size(); i++){
+    		if (lines.get(i).isEmpty() == false){
+    			
+    			sentenceIndexes[sentenceBeginningCounter][0] = i;
+    		}
+    	}
+    	
+    	String[] sentences = new String[sentenceCounter];
+    	
+    	int counter = 0;
+    	for (int i = 0; i < lines.size(); i++){
+    		if (lines.get(i).isEmpty() == false){
+    			
+    		}
+    		
+    	}
         return currentLine < lines.size();
     }
 
@@ -51,7 +78,12 @@ public class NewReader
     public void getNext(JCas aJCas)
         throws IOException, CollectionException
     {
-
+    	
+    	 
+    	for (int i = 0; i <lines.size(); i++)
+    	{
+    		
+    	}
         // increment to avoid infinite looping - delete it if you don't need it
         currentLine++;
     }
