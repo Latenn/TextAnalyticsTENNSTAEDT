@@ -57,6 +57,6 @@ protected String message;
     
         languageAnno.addToIndexes();
         
-        System.out.println(message);
+//        System.out.println(message);
     }
 }

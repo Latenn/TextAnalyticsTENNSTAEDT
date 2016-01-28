@@ -77,18 +77,24 @@ public class MyReader
     	
     	
     
-    	for (int i = 0; i < parts.length; i++){
-    		System.out.println(parts[i]);
-    	}
-    	System.out.println("");
+//    	for (int i = 0; i < parts.length; i++){
+//    		System.out.println(parts[i]);
+//    	}
+//    	System.out.println("");
         
     	if (parts.length != 4) {
             throw new IOException("Wrong line format: " + lines.get(currentLine));
         }
-  
+    	
+    	 // add gold standard value as annotation
+        GoldLanguage goldLanguage = new GoldLanguage(jcas);
+        goldLanguage.setLanguage(parts[2]);
+        goldLanguage.addToIndexes();
+    	
         // add actual text of the document
         jcas.setDocumentText(parts[3]);
         
+
         currentLine += 2;
     }
 

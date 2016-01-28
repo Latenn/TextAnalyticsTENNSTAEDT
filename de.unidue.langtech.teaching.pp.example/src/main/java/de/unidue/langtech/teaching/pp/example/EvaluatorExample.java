@@ -1,5 +1,7 @@
 package de.unidue.langtech.teaching.pp.example;
 
+import java.util.Collection;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
@@ -7,6 +9,7 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 
@@ -43,7 +46,13 @@ public class EvaluatorExample
 
         System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
         
+        Collection<Token> select = JCasUtil.select(jcas, Token.class);
         // FIXME: Keep track of correctly classified documents! 
+        for (Token t : select){
+        	System.out.println(t.getPos().getPosValue());
+        	System.out.println(t.getPos().getClass().getSimpleName());
+        	System.out.println(" ");
+        }
     }
 
 
