@@ -1,5 +1,8 @@
 package de.unidue.langtech.teaching.pp.example;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
 import org.apache.uima.UimaContext;
@@ -19,6 +22,9 @@ public class EvaluatorExample
 
     private int correct;
     private int nrOfDocuments;
+    private int tokenCount = 1;
+    private int sentenceCount = 1;
+    PrintWriter writer = null;
     
     /* 
      * This is called BEFORE any documents are processed.
@@ -30,6 +36,16 @@ public class EvaluatorExample
         super.initialize(context);
         correct = 0;
         nrOfDocuments = 0;
+        
+        try {
+			writer = new PrintWriter("AdjectivesVerbsList.txt", "UTF-8");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     
@@ -47,11 +63,33 @@ public class EvaluatorExample
         System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
         
         Collection<Token> select = JCasUtil.select(jcas, Token.class);
+        
+        
+		
+			writer.println("Sentence:" + sentenceCount);
+			for (Token t : select){
+				
+				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
+	        	{
+	        		writer.println(t.getPos().getClass().getSimpleName() + " " + t.getCoveredText() + " " + actual.getLanguage());
+	        	}	
+			}
+			writer.println(" ");
+			sentenceCount++;
+		
+	
+        
+        // Ist oben schon vorhanden: Collection<Token> select = JCasUtil.select(jcas, Token.class);
         // FIXME: Keep track of correctly classified documents! 
         for (Token t : select){
-        	System.out.println(t.getPos().getPosValue());
+        	System.out.println("Token " + tokenCount);
+        	//System.out.println(t.getPos().getPosValue());
         	System.out.println(t.getPos().getClass().getSimpleName());
+        	System.out.println(t.getCoveredText());
         	System.out.println(" ");
+        	tokenCount++;
+        	
+        	
         }
     }
 
@@ -64,7 +102,7 @@ public class EvaluatorExample
         throws AnalysisEngineProcessException
     {
         super.collectionProcessComplete();
-        
+        writer.close();
         System.out.println(correct + " out of " + nrOfDocuments + " are correct.");
     }
 }

@@ -28,7 +28,7 @@ public class BasicPipeline
         SimplePipeline.runPipeline(
                 CollectionReaderFactory.createReader(
                         MyReader.class,
-                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/Trainingdata.txt"
+                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/TrainingdataShort.txt"
                 ),
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
