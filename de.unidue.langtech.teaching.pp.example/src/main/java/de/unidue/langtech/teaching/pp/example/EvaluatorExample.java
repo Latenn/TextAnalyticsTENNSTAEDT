@@ -1,8 +1,10 @@
 package de.unidue.langtech.teaching.pp.example;
 
+import java.awt.List;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.uima.UimaContext;
@@ -25,6 +27,9 @@ public class EvaluatorExample
     private int tokenCount = 1;
     private int sentenceCount = 1;
     PrintWriter writer = null;
+    private ArrayList<String> words = new ArrayList<String>();
+	private boolean isInList;
+	private int iterationCounter = 0;
     
     /* 
      * This is called BEFORE any documents are processed.
@@ -66,15 +71,25 @@ public class EvaluatorExample
         
         
 		
-			writer.println("Sentence:" + sentenceCount);
+			//writer.println("Sentence:" + sentenceCount);
 			for (Token t : select){
+				words.add(t.getCoveredText());
 				
 				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
 	        	{
-	        		writer.println(t.getPos().getClass().getSimpleName() + " " + t.getCoveredText() + " " + actual.getLanguage());
-	        	}	
+					for (int i = 0; i < iterationCounter; i++){
+						if (t.getCoveredText().equals(words.get(i))){
+							isInList = true;
+						}
+					}
+					if (isInList = false){
+						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + actual.getLanguage());
+					}
+	        		isInList = false;
+	        	}
+				iterationCounter +=1;
 			}
-			writer.println(" ");
+			//writer.println(" ");
 			sentenceCount++;
 		
 	
