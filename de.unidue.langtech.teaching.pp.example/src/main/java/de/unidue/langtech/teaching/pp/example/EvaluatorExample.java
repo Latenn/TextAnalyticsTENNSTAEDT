@@ -30,6 +30,8 @@ public class EvaluatorExample
     private ArrayList<String> words = new ArrayList<String>();
 	private boolean isInList;
 	private int iterationCounter = 0;
+	private int amount;
+	
     
     /* 
      * This is called BEFORE any documents are processed.
@@ -41,6 +43,7 @@ public class EvaluatorExample
         super.initialize(context);
         correct = 0;
         nrOfDocuments = 0;
+        
         
         try {
 			writer = new PrintWriter("AdjectivesVerbsList.txt", "UTF-8");
@@ -67,25 +70,34 @@ public class EvaluatorExample
 
         System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
         
-        Collection<Token> select = JCasUtil.select(jcas, Token.class);
+       Collection<Token> select = JCasUtil.select(jcas, Token.class);
         
-        
-		
+        	for (Token t : select){
+        		if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V")){
+        			words.add(t.getCoveredText());
+        		}
+        	}
+			
 			//writer.println("Sentence:" + sentenceCount);
 			for (Token t : select){
-				words.add(t.getCoveredText());
-				
+				/*amount = 0;
+				for (int i = 0; i < words.size(); i++){
+					if (words.get(i).equals(t.getCoveredText())){
+						amount += 1;
+					}
+				}*/
+			
 				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
 	        	{
-					for (int i = 0; i < iterationCounter; i++){
+					/*for (int i = 0; i <= iterationCounter; i++){
 						if (t.getCoveredText().equals(words.get(i))){
 							isInList = true;
 						}
-					}
-					if (isInList = false){
+					}*/
+					//if (isInList = false){
 						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + actual.getLanguage());
-					}
-	        		isInList = false;
+					//}
+	        		//isInList = false;
 	        	}
 				iterationCounter +=1;
 			}

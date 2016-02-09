@@ -14,6 +14,7 @@ import de.unidue.langtech.teaching.pp.example.BaselineExample;
 import de.unidue.langtech.teaching.pp.example.EvaluatorExample;
 import de.unidue.langtech.teaching.pp.example.MyReader;
 import de.unidue.langtech.teaching.pp.example.ReaderExample;
+import de.unidue.langtech.teaching.pp.example.evaluatorSol.ProbabilityCalculator;
 import de.unidue.langtech.teaching.pp.example.newType.LetterAnnotator;
 import de.unidue.langtech.teaching.pp.ownReaderTest.NewReader;
 import de.unidue.langtech.teaching.pp.ownReaderTest.NewReaderSolution;
@@ -33,7 +34,8 @@ public class BasicPipeline
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class)
+                AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class),
+                AnalysisEngineFactory.createEngineDescription(ProbabilityCalculator.class)
 //                AnalysisEngineFactory.createEngineDescription(SnowballStemmer.class, SnowballStemmer.PARAM_LANGUAGE, "en"),
 //                AnalysisEngineFactory.createEngineDescription(LetterAnnotator.class),
 //                AnalysisEngineFactory.createEngineDescription(CasDumpWriter.class)
