@@ -1,7 +1,10 @@
 package de.unidue.langtech.teaching.pp.example;
 
 import java.awt.List;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -18,20 +21,24 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 
-public class EvaluatorExample
+public class Classifier
     extends JCasAnnotator_ImplBase
 {
 
     private int correct;
     private int nrOfDocuments;
     private int tokenCount = 1;
-    private int sentenceCount = 1;
-    PrintWriter writer = null;
-    private ArrayList<String> words = new ArrayList<String>();
-	private boolean isInList;
+    
+    private ArrayList<Float> posProb = new ArrayList<Float>();
+    private ArrayList<Float> negProb = new ArrayList<Float>();
+    private ArrayList<Float> neuProb = new ArrayList<Float>();
+    private ArrayList<String> probWords = new ArrayList<String>();
+    
 	private int iterationCounter = 0;
-	private int amount;
-	
+	String line = null;
+	String fileName = "src/test/resources/test/UniqueProbabilityListLong.txt";
+	String[] parts;
+
     
     /* 
      * This is called BEFORE any documents are processed.
@@ -42,18 +49,29 @@ public class EvaluatorExample
     {
         super.initialize(context);
         correct = 0;
-        nrOfDocuments = 0;
+        nrOfDocuments = 0; 
         
         
-        try {
-			writer = new PrintWriter("AdjectivesVerbsListLong.txt", "UTF-8");
+        
+		try {
+			FileReader fileReader = new FileReader(fileName);
+			BufferedReader br = new BufferedReader(fileReader);
+			while ((line = br.readLine()) != null){
+				parts = line.split("\t");
+				probWords.add(parts[0]);
+				posProb.add(Float.parseFloat(parts[1]));
+				negProb.add(Float.parseFloat(parts[2]));
+				neuProb.add(Float.parseFloat(parts[3]));
+			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
     }
     
     
@@ -68,44 +86,58 @@ public class EvaluatorExample
         DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
         GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
 
-        System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
-        
+        //System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
+
+       ArrayList<String> words = new ArrayList<String>();
+       float posValue = 1;
+       float negValue = 1;
+       float neuValue = 1;
+       int matchCount = 0;
+       
        Collection<Token> select = JCasUtil.select(jcas, Token.class);
-        
+       for (Token t : select){
+    	   words.add(t.getCoveredText());
+       }
+       System.out.println(words.size());
+       
+       for (int i = 0; i < words.size(); i++){
+    	   for (int x = 0; x < probWords.size(); x++){
+    		   if (words.get(i).equals(probWords.get(x))){ 
+    			   if (posValue != 0.0f){
+    				   posValue *= posProb.get(x);
+    			   }
+    			   if (negValue != 0.0f){
+    				   negValue *= negProb.get(x);
+    			   }
+    			   if (neuValue != 0.0f){
+    				   neuValue *= neuProb.get(x);
+    			   }
+    			   matchCount += 1;
+    			   System.out.println(words.get(i) + " " + posProb.get(x) + " " + negProb.get(x) + " " + neuProb.get(x));
+    		   }
+    	   }
+       }
+       System.out.println(posValue + " "  + " "  + negValue + " " + neuValue);
+       System.out.println(matchCount);
+        /*
         	for (Token t : select){
         		if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V")){
         			words.add(t.getCoveredText());
         		}
         	}
 			
-			//writer.println("Sentence:" + sentenceCount);
 			for (Token t : select){
-				/*amount = 0;
-				for (int i = 0; i < words.size(); i++){
-					if (words.get(i).equals(t.getCoveredText())){
-						amount += 1;
-					}
-				}*/
 			
 				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
 	        	{
-					/*for (int i = 0; i <= iterationCounter; i++){
-						if (t.getCoveredText().equals(words.get(i))){
-							isInList = true;
-						}
-					}*/
-					//if (isInList = false){
 						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + actual.getLanguage());
-					//}
-	        		//isInList = false;
+				
 	        	}
 				iterationCounter +=1;
 			}
-			//writer.println(" ");
-			sentenceCount++;
-		
+		*/
 	
-        
+       /* 
         // Ist oben schon vorhanden: Collection<Token> select = JCasUtil.select(jcas, Token.class);
         // FIXME: Keep track of correctly classified documents! 
         for (Token t : select){
@@ -117,7 +149,7 @@ public class EvaluatorExample
         	tokenCount++;
         	
         	
-        }
+        }*/
     }
 
 
@@ -129,7 +161,6 @@ public class EvaluatorExample
         throws AnalysisEngineProcessException
     {
         super.collectionProcessComplete();
-        writer.close();
-        System.out.println(correct + " out of " + nrOfDocuments + " are correct.");
+       // System.out.println(correct + " out of " + nrOfDocuments + " are correct.");
     }
 }

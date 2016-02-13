@@ -33,7 +33,7 @@ protected String message;
         System.out.println("Document is: " + jcas.getDocumentText());
         
         Collection<Token> tokens = JCasUtil.select(jcas, Token.class);
-        System.out.println("CAS contains " + tokens.size() + " tokens.");
+        //System.out.println("CAS contains " + tokens.size() + " tokens.");
         
         DetectedLanguage languageAnno = new DetectedLanguage(jcas);
         

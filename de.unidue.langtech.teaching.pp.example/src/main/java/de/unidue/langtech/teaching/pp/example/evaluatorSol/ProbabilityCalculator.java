@@ -26,7 +26,9 @@ import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 public class ProbabilityCalculator extends JCasAnnotator_ImplBase {
 
 	BufferedReader br = null;
-	PrintWriter writer = null;    
+	PrintWriter writer = null;
+	String line = null;
+	String fileName = "src/test/resources/test/AdjectivesVerbsList.txt";
     
    
 	public void initialize(UimaContext context)
@@ -44,11 +46,13 @@ public class ProbabilityCalculator extends JCasAnnotator_ImplBase {
 				}
 	       
 				try {
-					String sCurrentLine;
-
-					br = new BufferedReader(new FileReader("src/test/resources/test/AdjectivesVerbsList.txt"));
-					while ((sCurrentLine = br.readLine()) != null) {
-						writer.println(sCurrentLine);
+					FileReader fileReader = new FileReader(fileName);
+					
+					BufferedReader br = new BufferedReader(fileReader);
+					
+					while ((line = br.readLine()) != null){
+						writer.println(line);
+						writer.println("test");
 					}
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -56,7 +60,7 @@ public class ProbabilityCalculator extends JCasAnnotator_ImplBase {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
+				}
 				
 			
 	    }

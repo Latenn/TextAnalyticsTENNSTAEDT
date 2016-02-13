@@ -11,6 +11,7 @@ import de.tudarmstadt.ukp.dkpro.core.snowball.SnowballStemmer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 import de.unidue.langtech.teaching.pp.example.BaselineExample;
+import de.unidue.langtech.teaching.pp.example.Classifier;
 import de.unidue.langtech.teaching.pp.example.EvaluatorExample;
 import de.unidue.langtech.teaching.pp.example.MyReader;
 import de.unidue.langtech.teaching.pp.example.ReaderExample;
@@ -29,13 +30,14 @@ public class BasicPipeline
         SimplePipeline.runPipeline(
                 CollectionReaderFactory.createReader(
                         MyReader.class,
-                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/TrainingdataShort.txt"
+                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/TrainingdataShortened.txt"
                 ),
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class),
-                AnalysisEngineFactory.createEngineDescription(ProbabilityCalculator.class)
+                AnalysisEngineFactory.createEngineDescription(Classifier.class)
+                //AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class)
+//                AnalysisEngineFactory.createEngineDescription(ProbabilityCalculator.class)
 //                AnalysisEngineFactory.createEngineDescription(SnowballStemmer.class, SnowballStemmer.PARAM_LANGUAGE, "en"),
 //                AnalysisEngineFactory.createEngineDescription(LetterAnnotator.class),
 //                AnalysisEngineFactory.createEngineDescription(CasDumpWriter.class)
