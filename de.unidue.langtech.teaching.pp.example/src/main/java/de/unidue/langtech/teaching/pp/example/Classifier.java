@@ -115,9 +115,9 @@ public class Classifier
         
         
        ArrayList<String> words = new ArrayList<String>();
-       float posValue = 1;
-       float negValue = 1;
-       float neuValue = 1;
+       double posValue = 1;
+       double negValue = 1;
+       double neuValue = 1;
        int matchCount = 0;
        DetectedLanguage languageAnno = new DetectedLanguage(jcas);
        
@@ -146,16 +146,16 @@ public class Classifier
        System.out.println(matchCount);
        if (posValue > negValue || posValue > neuValue){
     	   languageAnno.setLanguage("positive");
-       }
-       if (negValue > posValue || negValue > neuValue){
+       }else if (negValue > posValue || negValue > neuValue){
     	   languageAnno.setLanguage("negative");
-       }
-       if (neuValue > posValue || neuValue > negValue){
+       }else if (neuValue > posValue || neuValue > negValue){
     	   languageAnno.setLanguage("neutral");
-       }
-       if (neuValue == posValue || posValue == negValue){
-    	   languageAnno.setLanguage("positive");
-       }
+       }else { languageAnno.setLanguage("positive");}
+    	
+       
+       
+       
+       
        languageAnno.addToIndexes();
        
         /*
