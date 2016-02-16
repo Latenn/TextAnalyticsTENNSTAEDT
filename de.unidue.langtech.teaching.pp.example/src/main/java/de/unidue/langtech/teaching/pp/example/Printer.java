@@ -172,21 +172,6 @@ public class Printer
         		asNeg += 1;
         	}
         }
-        
-        
-       /* 
-        // Ist oben schon vorhanden: Collection<Token> select = JCasUtil.select(jcas, Token.class);
-        // FIXME: Keep track of correctly classified documents! 
-        for (Token t : select){
-        	System.out.println("Token " + tokenCount);
-        	//System.out.println(t.getPos().getPosValue());
-        	System.out.println(t.getPos().getClass().getSimpleName());
-        	System.out.println(t.getCoveredText());
-        	System.out.println(" ");
-        	tokenCount++;
-        	
-        	
-        }*/
     }
 
 
