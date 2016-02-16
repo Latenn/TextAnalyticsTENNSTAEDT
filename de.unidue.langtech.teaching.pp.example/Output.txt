@@ -1,1 +1,29 @@
-1835.0 out of 4347.0 are correct. 42.21302 %
+-----------------------
+Overall
+-----------------------
+Total amount of documents tested: 4347.0
+Amount of positive documents: 1721.0
+Amount of negative documents: 762.0
+Amount of neutral documents: 1864.0
+Accuracy: 42.21302%
+ 
+-----------------------
+Positive
+-----------------------
+Precision :69.20395%
+Recall: 42.234043%
+F-Measure: 0.5245541
+ 
+-----------------------
+Negative
+-----------------------
+Precision :13.123361%
+Recall: 28.490028%
+F-Measure: 0.17969452
+ 
+-----------------------
+Neutral
+-----------------------
+Precision :29.18455%
+Recall: 46.258503%
+F-Measure: 0.35789475
