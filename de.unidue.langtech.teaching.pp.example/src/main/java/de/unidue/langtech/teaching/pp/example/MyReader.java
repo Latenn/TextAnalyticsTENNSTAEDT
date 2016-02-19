@@ -14,7 +14,9 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
 
+import de.unidue.de.langtech.teaching.pp.type.ValueType;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
+
 
 /**
  * Example of a simple reader that reads a text file 
@@ -87,10 +89,16 @@ public class MyReader
         }
     	
     	 // add gold standard value as annotation
-        GoldLanguage goldLanguage = new GoldLanguage(jcas);
+        /*GoldLanguage goldLanguage = new GoldLanguage(jcas);
         goldLanguage.setLanguage(parts[2]);
         goldLanguage.addToIndexes();
+    	*/
     	
+    	ValueType GoldValue = new ValueType(jcas);
+    	GoldValue.setGoldValue("X");
+    	GoldValue.setDetectedValue("Y");
+    	GoldValue.addToIndexes();
+    	//GoldValue goldValue = new GoldValue(jcas);
         // add actual text of the document
         jcas.setDocumentText(parts[3]);
         
