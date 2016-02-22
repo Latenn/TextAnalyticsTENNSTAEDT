@@ -6,17 +6,24 @@
   <vendor/>
   <types>
     <typeDescription>
-      <name>de.unidue.de.langtech.teaching.pp.type.ValueType</name>
+      <name>de.unidue.langtech.teaching.pp.type.GoldValue</name>
       <description/>
       <supertypeName>uima.tcas.Annotation</supertypeName>
       <features>
         <featureDescription>
-          <name>GoldValue</name>
+          <name>Value</name>
           <description/>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
+      </features>
+    </typeDescription>
+    <typeDescription>
+      <name>de.unidue.langtech.teaching.pp.type.DetectedValue</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
         <featureDescription>
-          <name>DetectedValue</name>
+          <name>Value</name>
           <description/>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>

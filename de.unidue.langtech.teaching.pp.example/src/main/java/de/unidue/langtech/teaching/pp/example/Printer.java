@@ -19,7 +19,9 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
+import de.unidue.langtech.teaching.pp.type.DetectedValue;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
+import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 public class Printer
     extends JCasAnnotator_ImplBase
@@ -114,16 +116,72 @@ public class Printer
         throws AnalysisEngineProcessException
     {
         
-        DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
-        GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
+        //DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
+        //GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
+    	DetectedValue detectedValue = JCasUtil.selectSingle(jcas, DetectedValue.class);
+    	GoldValue goldValue = JCasUtil.selectSingle(jcas, GoldValue.class);
 
-        System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
+        //System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
+        System.out.println(goldValue.getValue() + " detected as " + detectedValue.getValue());
 		
-        if (detected.getLanguage().equals(actual.getLanguage())){
+       // if (detected.getLanguage().equals(actual.getLanguage())){
+       // 	correct += 1;
+       //}
+        if (detectedValue.getValue().equals(goldValue.getValue())){
         	correct += 1;
         }
         nrOfDocuments += 1;
         
+      //Fuer positiv:
+        if (goldValue.getValue().equals("positive")){
+        	posCount += 1;
+        	if (detectedValue.getValue().equals("positive")){
+        		posAsPos += 1;
+        		asPos += 1;
+        	}
+        	if (detectedValue.getValue().equals("negative")){
+        		posAsNeg += 1;
+        		asNeg += 1;
+        	}
+        	if (detectedValue.getValue().equals("neutral")){
+        		posAsNeu += 1;
+        		asNeu += 1;
+        	}
+        }
+        //Fuer negativ:
+        if (goldValue.getValue().equals("negative")){
+        	negCount += 1;
+        	if(detectedValue.getValue().equals("negative")){
+        		negAsNeg += 1;
+        		asNeg += 1;
+        	}
+        	if(detectedValue.getValue().equals("positive")){
+        		negAsPos += 1;
+        		asPos += 1;
+        	}
+        	if(detectedValue.getValue().equals("neutral")){
+        		negAsNeu += 1;
+        		asNeu += 1;
+        	}
+        }
+        //Fuer neutral:
+        if (goldValue.getValue().equals("neutral")){
+        	neuCount += 1;
+        	if(detectedValue.getValue().equals("neutral")){
+        		neuAsNeu += 1;
+        		asNeu += 1;
+        	}
+        	if(detectedValue.getValue().equals("positive")){
+        		neuAsPos += 1;
+        		asPos += 1;
+        	}
+        	if(detectedValue.getValue().equals("negative")){
+        		neuAsNeg += 1;
+        		asNeg += 1;
+        	}
+        }
+        
+        /*
         //Fuer positiv:
         if (actual.getLanguage().equals("positive")){
         	posCount += 1;
@@ -171,7 +229,7 @@ public class Printer
         		neuAsNeg += 1;
         		asNeg += 1;
         	}
-        }
+        }*/
     }
 
 

@@ -19,6 +19,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
+import de.unidue.langtech.teaching.pp.type.DetectedValue;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 
 public class Classifier
@@ -119,7 +120,10 @@ public class Classifier
        double negValue = 1;
        double neuValue = 1;
        int matchCount = 0;
-       DetectedLanguage languageAnno = new DetectedLanguage(jcas);
+       //DetectedLanguage languageAnno = new DetectedLanguage(jcas);
+       //ValueType DetectedValue = new ValueType(jcas);
+       DetectedValue detectedValue = new DetectedValue(jcas);
+       
        
        Collection<Token> select = JCasUtil.select(jcas, Token.class);
        for (Token t : select){
@@ -145,18 +149,18 @@ public class Classifier
        System.out.println(posValue + " "  + " "  + negValue + " " + neuValue);
        System.out.println(matchCount);
        if (posValue > negValue || posValue > neuValue){
-    	   languageAnno.setLanguage("positive");
+    	   detectedValue.setValue("positive");
        }else if (negValue > posValue || negValue > neuValue){
-    	   languageAnno.setLanguage("negative");
+    	   detectedValue.setValue("negative");
        }else if (neuValue > posValue || neuValue > negValue){
-    	   languageAnno.setLanguage("neutral");
-       }else { languageAnno.setLanguage("positive");}
+    	   detectedValue.setValue("neutral");
+       }else { detectedValue.setValue("positive");}
     	
        
        
        
        
-       languageAnno.addToIndexes();
+       detectedValue.addToIndexes();
        
         /*
         	for (Token t : select){
