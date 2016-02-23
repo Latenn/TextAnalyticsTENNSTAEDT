@@ -36,7 +36,7 @@ public class BasicPipeline
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                AnalysisEngineFactory.createEngineDescription(Classifier.class),
+                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListLong.txt"),
                 AnalysisEngineFactory.createEngineDescription(Printer.class)
                 //AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class)
 //                AnalysisEngineFactory.createEngineDescription(ProbabilityCalculator.class)

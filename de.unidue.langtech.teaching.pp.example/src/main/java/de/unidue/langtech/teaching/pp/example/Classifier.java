@@ -2,6 +2,7 @@ package de.unidue.langtech.teaching.pp.example;
 
 import java.awt.List;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -25,6 +27,13 @@ import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 public class Classifier
     extends JCasAnnotator_ImplBase
 {
+	
+	 /**
+     * Input file
+     */
+    public static final String PARAM_INPUT_FILE = "InputFile";
+    @ConfigurationParameter(name = PARAM_INPUT_FILE, mandatory = true)
+    private File inputFile;    
 
     private int correct;
     private int nrOfDocuments;
@@ -42,7 +51,7 @@ public class Classifier
     
 	private int iterationCounter = 0;
 	String line = null;
-	String fileName = "src/test/resources/test/UniqueProbabilityListLong.txt";
+	//String fileName = "src/test/resources/test/UniqueProbabilityListLong.txt";
 	String[] parts;
 
     
@@ -63,7 +72,8 @@ public class Classifier
         generalCount = 0;
         
 		try {
-			FileReader fileReader = new FileReader(fileName);
+			//FileReader fileReader = new FileReader(fileName);
+			FileReader fileReader = new FileReader(inputFile);
 			BufferedReader br = new BufferedReader(fileReader);
 			while ((line = br.readLine()) != null){
 				parts = line.split("\t");
