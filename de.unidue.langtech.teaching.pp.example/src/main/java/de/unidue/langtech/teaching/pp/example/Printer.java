@@ -96,7 +96,7 @@ public class Printer
         negCount = 0;
         neuCount = 0;
         
-        try {
+        /*try {
 			PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -104,7 +104,7 @@ public class Printer
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     }
     
     

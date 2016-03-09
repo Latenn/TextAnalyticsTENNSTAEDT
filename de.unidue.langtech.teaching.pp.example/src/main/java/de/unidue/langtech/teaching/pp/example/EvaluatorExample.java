@@ -16,7 +16,9 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
+import de.unidue.langtech.teaching.pp.type.DetectedValue;
 import de.unidue.langtech.teaching.pp.type.GoldLanguage;
+import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 public class EvaluatorExample
     extends JCasAnnotator_ImplBase
@@ -46,7 +48,7 @@ public class EvaluatorExample
         
         
         try {
-			writer = new PrintWriter("AdjectivesVerbsListLong.txt", "UTF-8");
+			writer = new PrintWriter("AdjectivesVerbsListTest.txt", "UTF-8");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,10 +67,14 @@ public class EvaluatorExample
         throws AnalysisEngineProcessException
     {
         
-        DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
-        GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
+        //DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
+        //GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
+    	
+    	//DetectedValue detectedValue = JCasUtil.selectSingle(jcas, DetectedValue.class);
+    	GoldValue goldValue = JCasUtil.selectSingle(jcas, GoldValue.class);
 
-        System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
+        //System.out.println(goldValue.getValue() + " detected as " + detectedValue.getValue());
+    	System.out.println(goldValue.getValue() + " detected as " + "Platzhalter");
         
        Collection<Token> select = JCasUtil.select(jcas, Token.class);
         
@@ -95,7 +101,7 @@ public class EvaluatorExample
 						}
 					}*/
 					//if (isInList = false){
-						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + actual.getLanguage());
+						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + goldValue.getValue());
 					//}
 	        		//isInList = false;
 	        	}
