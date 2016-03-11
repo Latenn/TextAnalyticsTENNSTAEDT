@@ -12,7 +12,7 @@ public class ProbabilityCalculatorSmooth {
 		// TODO Auto-generated method stub
 		 PrintWriter writer = null;
 		 String line = null;
-		 String fileName = "AdjectivesVerbsListLong.txt";
+		 String fileName = "AdjectivesVerbsList.txt";
 		 ArrayList<String> types = new ArrayList<String>();
 		 ArrayList<String> words = new ArrayList<String>(); 
 		 ArrayList<String> values = new ArrayList<String>();
