@@ -19,20 +19,12 @@ import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 
-/**
- * Example of a simple reader that reads a text file 
- * and puts each line of the file in a single document.
- * 
- * @author zesch
- *
- */
+
 public class MyReader
     extends JCasCollectionReader_ImplBase
 {
 
-    /**
-     * Input file
-     */
+   
     public static final String PARAM_INPUT_FILE = "InputFile";
     @ConfigurationParameter(name = PARAM_INPUT_FILE, mandatory = true)
     private File inputFile;    
@@ -40,9 +32,7 @@ public class MyReader
     private List<String> lines;
     private int currentLine;
     
-    /* 
-     * initializes the reader
-     */
+   
     @Override
     public void initialize(UimaContext context)
         throws ResourceInitializationException
@@ -58,10 +48,7 @@ public class MyReader
         }
     }
     
-    
-    /* 
-     * true, if there is a next document, false otherwise
-     */
+   
     public boolean hasNext()
         throws IOException, CollectionException
     {
@@ -69,52 +56,32 @@ public class MyReader
     }
     
     
-    /* 
-     * feeds the next document into the pipeline
-     */
+   
 	@Override
     public void getNext(JCas jcas)
         throws IOException, CollectionException
     {
     	String[] parts = lines.get(currentLine).split("\t");
     	
-    	
-    
-//    	for (int i = 0; i < parts.length; i++){
-//    		System.out.println(parts[i]);
-//    	}
-//    	System.out.println("");
+
         
     	if (parts.length != 4) {
             throw new IOException("Wrong line format: " + lines.get(currentLine));
         }
     	
-    	 // add gold standard value as annotation
-        /*GoldLanguage goldLanguage = new GoldLanguage(jcas);
-        goldLanguage.setLanguage(parts[2]);
-        goldLanguage.addToIndexes();
-    	*/
-    	
-    	//ValueType GoldValue = new ValueType(jcas);
-    	//GoldValue.setGoldValue(parts[2]);
-    	//GoldValue.addToIndexes();
+    
     	
     	GoldValue goldValue = new GoldValue(jcas);
     	goldValue.setValue(parts[2]);
     	goldValue.addToIndexes();
     	
-    	//GoldValue goldValue = new GoldValue(jcas);
-        // add actual text of the document
+    	
         jcas.setDocumentText(parts[3]);
         
 
         currentLine += 2;
     }
 
-    
-    /* 
-     * informs the pipeline about the current progress
-     */
     public Progress[] getProgress()
     {
         return new Progress[] { new ProgressImpl(currentLine, lines.size(), "lines") };

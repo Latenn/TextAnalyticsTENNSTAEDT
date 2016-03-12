@@ -34,45 +34,32 @@ public class Classifier
     public static final String PARAM_INPUT_FILE = "InputFile";
     @ConfigurationParameter(name = PARAM_INPUT_FILE, mandatory = true)
     private File inputFile;    
-
-    private int correct;
-    private int nrOfDocuments;
-    private int tokenCount = 1;
     
     private ArrayList<Float> posProb = new ArrayList<Float>();
     private ArrayList<Float> negProb = new ArrayList<Float>();
     private ArrayList<Float> neuProb = new ArrayList<Float>();
     private ArrayList<String> probWords = new ArrayList<String>();
     
-    private float posCount;
-    private float negCount;
-    private float neuCount;
-    private float generalCount;
+    private float priorPosProbability;
+    private float priorNegProbability;
+    private float priorNeuProbability;
     
-	private int iterationCounter = 0;
 	String line = null;
-	//String fileName = "src/test/resources/test/UniqueProbabilityListLong.txt";
+	String line2 = null;
 	String[] parts;
+	String[] parts2;
+	String probFileName = "PriorProbabilities.txt";
 
     
-    /* 
-     * This is called BEFORE any documents are processed.
-     */
+   
     @Override
     public void initialize(UimaContext context)
         throws ResourceInitializationException
     {
-        super.initialize(context);
-        correct = 0;
-        nrOfDocuments = 0; 
+        super.initialize(context); 
         
-        posCount = 0;
-        negCount = 0;
-        neuCount = 0;
-        generalCount = 0;
-        
+        //Einlesen der Wahrscheinlichkeitsliste
 		try {
-			//FileReader fileReader = new FileReader(fileName);
 			FileReader fileReader = new FileReader(inputFile);
 			BufferedReader br = new BufferedReader(fileReader);
 			while ((line = br.readLine()) != null){
@@ -91,47 +78,42 @@ public class Classifier
 			e.printStackTrace();
 		}
 		
+		//Einlesen der Prior-Probabilities
+		try {
+			FileReader fileReader2 = new FileReader(probFileName);
+			
+			BufferedReader br2 = new BufferedReader(fileReader2);
+			
+			while ((line2 = br2.readLine()) != null){
+				parts2 = line2.split("\t");
+				priorPosProbability = (Float.parseFloat(parts2[0]));
+				priorNegProbability = (Float.parseFloat(parts2[1]));
+				priorNeuProbability = (Float.parseFloat(parts2[2]));
+				
+			}
+			br2.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
     }
     
     
-    /* 
-     * This is called ONCE for each document
-     */
+   
     @Override
     public void process(JCas jcas)
         throws AnalysisEngineProcessException
     {
-        
-        //DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
-        /*GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
-        if (actual.getLanguage().equals("positive")){
-        	posCount += 1;
-        	generalCount += 1;
-        }
-        if (actual.getLanguage().equals("negative")){
-        	negCount += 1;
-        	generalCount += 1;
-        }
-        if (actual.getLanguage().equals("neutral")){
-        	neuCount += 1;
-        	generalCount += 1;
-        }
-        */
-        //System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
-
-        
-        
-        
-        
-        
-        
+  
        ArrayList<String> words = new ArrayList<String>();
        double posValue = 1;
        double negValue = 1;
        double neuValue = 1;
        int matchCount = 0;
-       //DetectedLanguage languageAnno = new DetectedLanguage(jcas);
-       //ValueType DetectedValue = new ValueType(jcas);
+       
        DetectedValue detectedValue = new DetectedValue(jcas);
        
        
@@ -141,6 +123,7 @@ public class Classifier
        }
        System.out.println(words.size());
        
+       //Hier erfolgt der erste Teil der Wahrscheinlichkeitsberechnung fuer jede der 3 Klassen
        for (int i = 0; i < words.size(); i++){
     	   for (int x = 0; x < probWords.size(); x++){
     		   if (words.get(i).equals(probWords.get(x))){ 
@@ -153,9 +136,12 @@ public class Classifier
     		   }
     	   }
        }
-       posValue *= 0.35674438;
-       negValue *= 0.14819053;
-       neuValue *= 0.4950651;
+       
+       //Zweiter Teil: Verrechnen mit der Priori-Wahrscheinlichkeit fuer die entsprechende Klasse (oben eingelesen)
+       posValue *= priorPosProbability;
+       negValue *= priorNegProbability;
+       neuValue *= priorNeuProbability;
+       
        System.out.println(posValue + " "  + " "  + negValue + " " + neuValue);
        System.out.println(matchCount);
        if (posValue > negValue && posValue > neuValue){
@@ -164,57 +150,19 @@ public class Classifier
     	   detectedValue.setValue("negative");
        }else if (neuValue > posValue && neuValue > negValue){
     	   detectedValue.setValue("neutral");
-       }else { detectedValue.setValue("positive");}
+       }else { detectedValue.setValue("neutral");}
     	
-       
-       
-       
-       
+
        detectedValue.addToIndexes();
        
-        /*
-        	for (Token t : select){
-        		if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V")){
-        			words.add(t.getCoveredText());
-        		}
-        	}
-			
-			for (Token t : select){
-			
-				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
-	        	{
-						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + actual.getLanguage());
-				
-	        	}
-				iterationCounter +=1;
-			}
-		*/
-	
-       /* 
-        // Ist oben schon vorhanden: Collection<Token> select = JCasUtil.select(jcas, Token.class);
-        // FIXME: Keep track of correctly classified documents! 
-        for (Token t : select){
-        	System.out.println("Token " + tokenCount);
-        	//System.out.println(t.getPos().getPosValue());
-        	System.out.println(t.getPos().getClass().getSimpleName());
-        	System.out.println(t.getCoveredText());
-        	System.out.println(" ");
-        	tokenCount++;
-        	
-        	
-        }*/
     }
 
 
-    /* 
-     * This is called AFTER all documents have been processed.
-     */
+   
     @Override
     public void collectionProcessComplete()
         throws AnalysisEngineProcessException
     {
         super.collectionProcessComplete();
-       // System.out.println(correct + " out of " + nrOfDocuments + " are correct.");
-        //System.out.println("Pos = " + posCount/generalCount + "(" + posCount + ")" + " Neg = " + negCount/generalCount + "(" + negCount + ")" + " Neu = " + neuCount/generalCount + "(" + neuCount + ")" );
     }
 }

@@ -5,20 +5,20 @@ Total amount of documents tested: 4347.0
 Amount of positive documents: 1721.0
 Amount of negative documents: 762.0
 Amount of neutral documents: 1864.0
-Accuracy: 50.540604%
+Accuracy: 49.482403%
  
-Average F-Measure: 0.40473476
-Positive + Negative F-Measure: 0.31522167
-Positive + Neutral F-Measure: 0.54725456
-Negative + Neutral F-Measure: 0.35172817
+Average F-Measure: 0.37631664
+Positive + Negative F-Measure: 0.26062137
+Positive + Neutral F-Measure: 0.5046273
+Negative + Neutral F-Measure: 0.36370122
  
-Neutral detected as Neutral: 1251.0
-Positive detected as Neutral: 780.0
-Negative detected as Neutral: 391.0
+Neutral detected as Neutral: 1577.0
+Positive detected as Neutral: 1152.0
+Negative detected as Neutral: 597.0
  
-Positive detected as Positive: 891.0
-Negative detected as Positive: 316.0
-Neutral detected as Positive: 561.0
+Positive detected as Positive: 519.0
+Negative detected as Positive: 110.0
+Neutral detected as Positive: 235.0
  
 Negative detected as Negative: 55.0
 Positive detected as Negative: 50.0
@@ -27,9 +27,9 @@ Neutral detected as Negative: 52.0
 -----------------------
 Positive
 -----------------------
-Precision :50.39593%
-Recall: 51.772224%
-F-Measure: 0.510748
+Precision :60.069443%
+Recall: 30.156887%
+F-Measure: 0.4015474
  
 -----------------------
 Negative
@@ -41,6 +41,6 @@ F-Measure: 0.11969531
 -----------------------
 Neutral
 -----------------------
-Precision :51.651527%
-Recall: 67.11373%
-F-Measure: 0.58376104
+Precision :47.41431%
+Recall: 84.603004%
+F-Measure: 0.60770714

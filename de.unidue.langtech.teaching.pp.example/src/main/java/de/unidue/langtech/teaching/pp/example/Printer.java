@@ -67,12 +67,8 @@ public class Printer
     private float posNeuFMeasure;
     private float negNeuFMeasure;
     
-    private int tokenCount = 1;
     
 
-    /* 
-     * This is called BEFORE any documents are processed.
-     */
     @Override
     public void initialize(UimaContext context)
         throws ResourceInitializationException
@@ -101,42 +97,25 @@ public class Printer
         negCount = 0;
         neuCount = 0;
         
-        /*try {
-			PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
     }
     
-    
-    /* 
-     * This is called ONCE for each document
-     */
     @Override
     public void process(JCas jcas)
         throws AnalysisEngineProcessException
     {
         
-        //DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
-        //GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
     	DetectedValue detectedValue = JCasUtil.selectSingle(jcas, DetectedValue.class);
     	GoldValue goldValue = JCasUtil.selectSingle(jcas, GoldValue.class);
-
-        //System.out.println(actual.getLanguage() + " detected as " + detected.getLanguage());
+    	
         System.out.println(goldValue.getValue() + " detected as " + detectedValue.getValue());
 		
-       // if (detected.getLanguage().equals(actual.getLanguage())){
-       // 	correct += 1;
-       //}
+        
         if (detectedValue.getValue().equals(goldValue.getValue())){
         	correct += 1;
         }
         nrOfDocuments += 1;
         
+      //Es folgt die Zaehlung der entsprechenden Klassifizierungen
       //Fuer positiv:
         if (goldValue.getValue().equals("positive")){
         	posCount += 1;
@@ -185,62 +164,10 @@ public class Printer
         		asNeg += 1;
         	}
         }
-        
-        /*
-        //Fuer positiv:
-        if (actual.getLanguage().equals("positive")){
-        	posCount += 1;
-        	if (detected.getLanguage().equals("positive")){
-        		posAsPos += 1;
-        		asPos += 1;
-        	}
-        	if (detected.getLanguage().equals("negative")){
-        		posAsNeg += 1;
-        		asNeg += 1;
-        	}
-        	if (detected.getLanguage().equals("neutral")){
-        		posAsNeu += 1;
-        		asNeu += 1;
-        	}
-        }
-        //Fuer negativ:
-        if (actual.getLanguage().equals("negative")){
-        	negCount += 1;
-        	if(detected.getLanguage().equals("negative")){
-        		negAsNeg += 1;
-        		asNeg += 1;
-        	}
-        	if(detected.getLanguage().equals("positive")){
-        		negAsPos += 1;
-        		asPos += 1;
-        	}
-        	if(detected.getLanguage().equals("neutral")){
-        		negAsNeu += 1;
-        		asNeu += 1;
-        	}
-        }
-        //Fuer neutral:
-        if (actual.getLanguage().equals("neutral")){
-        	neuCount += 1;
-        	if(detected.getLanguage().equals("neutral")){
-        		neuAsNeu += 1;
-        		asNeu += 1;
-        	}
-        	if(detected.getLanguage().equals("positive")){
-        		neuAsPos += 1;
-        		asPos += 1;
-        	}
-        	if(detected.getLanguage().equals("negative")){
-        		neuAsNeg += 1;
-        		asNeg += 1;
-        	}
-        }*/
     }
 
 
-    /* 
-     * This is called AFTER all documents have been processed.
-     */
+
     @Override
     public void collectionProcessComplete()
         throws AnalysisEngineProcessException
@@ -268,7 +195,9 @@ public class Printer
         
         System.out.println(correct + " out of " + nrOfDocuments + " are correct. " + correct/nrOfDocuments*100 + " %");
         try {
-			PrintWriter writer = new PrintWriter("OutputTest.txt", "UTF-8");
+        	
+        	//Outputfilename wird hier fuer unterschiedliche Outputs (je nach verwendeter Liste) manuell angepasst
+			PrintWriter writer = new PrintWriter("OutputSmooth.txt", "UTF-8");
 			
 			writer.println("-----------------------");
 			writer.println("Overall");
@@ -317,25 +246,6 @@ public class Printer
 			writer.println("Recall: " + neuRecall*100 + "%");
 			writer.println("F-Measure: " + neuFMeasure);
 			
-			/*Testzweck
-			writer.println(" ");
-			writer.println(" ");
-			writer.println(" ");
-			writer.println(" ");
-			writer.println(" ");
-			
-			writer.println("Neutrale als neutral: " + neuAsNeu);
-			writer.println("Positive als neutral: " + posAsNeu);
-			writer.println("Negative als neutral: " + negAsNeu);
-			writer.println(" ");
-			writer.println("Positive als positiv: " + posAsPos);
-			writer.println("Negative als positiv: " + negAsPos);
-			writer.println("Neutrale als positiv: " + neuAsPos);
-			writer.println(" ");
-			writer.println("Negative als negativ: " + negAsNeg);
-			writer.println("Positive als negativ: " + posAsNeg);
-			writer.println("Neutrale als negativ: " + neuAsNeg);
-			*/
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

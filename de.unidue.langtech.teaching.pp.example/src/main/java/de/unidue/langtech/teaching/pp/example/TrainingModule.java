@@ -24,27 +24,24 @@ public class TrainingModule
     extends JCasAnnotator_ImplBase
 {
 
-    private int correct;
-    private int nrOfDocuments;
     private int tokenCount = 1;
-    private int sentenceCount = 1;
     PrintWriter writer = null;
     private ArrayList<String> words = new ArrayList<String>();
-	private boolean isInList;
-	private int iterationCounter = 0;
-	private int amount;
+	
+	private float posAmount = 0;
+	private float negAmount = 0;
+	private float neuAmount = 0;
+
+	private float posPriorProb = 0;
+	private float negPriorProb = 0;
+	private float neuPriorProb = 0;
 	
     
-    /* 
-     * This is called BEFORE any documents are processed.
-     */
     @Override
     public void initialize(UimaContext context)
         throws ResourceInitializationException
     {
         super.initialize(context);
-        correct = 0;
-        nrOfDocuments = 0;
         
         
         try {
@@ -56,26 +53,30 @@ public class TrainingModule
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
+       
     }
     
-    
-    /* 
-     * This is called ONCE for each document
-     */
     @Override
     public void process(JCas jcas)
         throws AnalysisEngineProcessException
     {
         
-        //DetectedLanguage detected = JCasUtil.selectSingle(jcas, DetectedLanguage.class);
-        //GoldLanguage actual = JCasUtil.selectSingle(jcas, GoldLanguage.class);
-    	
-    	//DetectedValue detectedValue = JCasUtil.selectSingle(jcas, DetectedValue.class);
     	GoldValue goldValue = JCasUtil.selectSingle(jcas, GoldValue.class);
-
-        //System.out.println(goldValue.getValue() + " detected as " + detectedValue.getValue());
-    	//System.out.println(goldValue.getValue() + " detected as " + "Platzhalter");
         
+    	
+    	//Fuer die Priori-Wahrscheinlichkeitsliste: Merken, wie oft die jeweiligen Labels in den Trainingsdaten vorkommen
+    	if (goldValue.getValue().equals("positive")){
+    		posAmount += 1;
+    	}
+    	if (goldValue.getValue().equals("negative")){
+    		negAmount += 1;
+    	}
+    	if (goldValue.getValue().equals("neutral")){
+    		neuAmount += 1;
+    	}
+    	
+    	
        Collection<Token> select = JCasUtil.select(jcas, Token.class);
         
         	for (Token t : select){
@@ -84,58 +85,49 @@ public class TrainingModule
         		}
         	}
 			
-			//writer.println("Sentence:" + sentenceCount);
+        	//Erstellen der AdjectivesVerbsList
 			for (Token t : select){
-				/*amount = 0;
-				for (int i = 0; i < words.size(); i++){
-					if (words.get(i).equals(t.getCoveredText())){
-						amount += 1;
-					}
-				}*/
-			
 				if(t.getPos().getClass().getSimpleName().equals("ADJ") || t.getPos().getClass().getSimpleName().equals("V"))
 	        	{
-					/*for (int i = 0; i <= iterationCounter; i++){
-						if (t.getCoveredText().equals(words.get(i))){
-							isInList = true;
-						}
-					}*/
-					//if (isInList = false){
 						writer.println(t.getPos().getClass().getSimpleName() + "\t" + t.getCoveredText() + "\t" + goldValue.getValue());
-					//}
-	        		//isInList = false;
 	        	}
-				iterationCounter +=1;
 			}
-			//writer.println(" ");
-			sentenceCount++;
-		
-	
-        
-        // Ist oben schon vorhanden: Collection<Token> select = JCasUtil.select(jcas, Token.class);
-        // FIXME: Keep track of correctly classified documents! 
+		 
         for (Token t : select){
         	System.out.println("Token " + tokenCount);
-        	//System.out.println(t.getPos().getPosValue());
         	System.out.println(t.getPos().getClass().getSimpleName());
         	System.out.println(t.getCoveredText());
         	System.out.println(" ");
         	tokenCount++;
-        	
-        	
         }
     }
 
-
-    /* 
-     * This is called AFTER all documents have been processed.
-     */
     @Override
     public void collectionProcessComplete()
         throws AnalysisEngineProcessException
     {
         super.collectionProcessComplete();
+        
+        posPriorProb = posAmount/(posAmount+negAmount+neuAmount);
+        negPriorProb = negAmount/(posAmount+negAmount+neuAmount);
+        neuPriorProb = neuAmount/(posAmount+negAmount+neuAmount);
+        
+        //Erstellen der Priori-Wahrscheinlichkeitsliste für den Classifier (enthaelt nur diese 3 Werte)
+        try {
+			PrintWriter writer2 = new PrintWriter("PriorProbabilities.txt", "UTF-8");
+			
+			writer2.println(posPriorProb + "\t" + negPriorProb + "\t" + neuPriorProb);
+			
+	        writer2.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         writer.close();
-        System.out.println(correct + " out of " + nrOfDocuments + " are correct.");
+        System.out.println("Finished");
     }
 }

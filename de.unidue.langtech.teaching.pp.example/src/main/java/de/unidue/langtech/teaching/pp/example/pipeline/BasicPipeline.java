@@ -17,7 +17,7 @@ import de.unidue.langtech.teaching.pp.example.MyReader;
 import de.unidue.langtech.teaching.pp.example.Printer;
 import de.unidue.langtech.teaching.pp.example.ReaderExample;
 import de.unidue.langtech.teaching.pp.example.TrainingModule;
-import de.unidue.langtech.teaching.pp.example.evaluatorSol.ProbabilityCalculator;
+//import de.unidue.langtech.teaching.pp.example.evaluatorSol.ProbabilityCalculator;
 import de.unidue.langtech.teaching.pp.example.newType.LetterAnnotator;
 import de.unidue.langtech.teaching.pp.ownReaderTest.NewReader;
 import de.unidue.langtech.teaching.pp.ownReaderTest.NewReaderSolution;
@@ -37,7 +37,7 @@ public class BasicPipeline
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListTest.txt"),
+                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListSmooth.txt"),
                 AnalysisEngineFactory.createEngineDescription(Printer.class)
                 //AnalysisEngineFactory.createEngineDescription(TrainingModule.class)
                 //AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class)

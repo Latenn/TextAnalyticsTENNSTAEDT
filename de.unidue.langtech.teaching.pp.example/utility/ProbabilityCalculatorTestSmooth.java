@@ -33,7 +33,7 @@ public class ProbabilityCalculatorTestSmooth {
 		 float negProb = 0;
 		 float neuProb = 0;
 		
-		 // Erstellen der Haeufigkeitsliste der Woerter und der entsprechenden Values
+		 //Ab hier der erste Teil: Erstellen der Haeufigkeitsliste der Woerter und der entsprechenden Values (enthaelt auch Wahrscheinlichkeiten)
 		        try {
 					writer = new PrintWriter("OccurrenceListTestSmooth.txt", "UTF-8");
 				} catch (FileNotFoundException e) {
@@ -54,7 +54,6 @@ public class ProbabilityCalculatorTestSmooth {
 						words.add(parts[1]);
 						values.add(parts[2]);
 						types.add(parts[0]);
-						//writer.println(line);
 						System.out.println(line);
 					}
 					
@@ -75,9 +74,11 @@ public class ProbabilityCalculatorTestSmooth {
 							}
 						}
 						
+						//Berechnung der eigentlichen Wahrscheinlichkeiten zur späteren Klassifizierung im Classifier
 						posProb = (positive+1) / (counter+3);
 						negProb = (negative+1) / (counter+3);
 						neuProb = (neutral+1) / (counter+3);
+						
 						posProbability.add(posProb);
 						negProbability.add(negProb);
 						neuProbability.add(neuProb);
@@ -98,11 +99,7 @@ public class ProbabilityCalculatorTestSmooth {
 						
 					}
 					for (int i = 0; i < words.size(); i++){
-//						if (minAmountCounter.get(i) > 9.0){
 							writer.println(types.get(i) + "\t" + words.get(i) + "\t" + values.get(i) + "\t" + amount.get(i) + "\t" + posAmount.get(i) + "\t" + negAmount.get(i) + "\t" + neuAmount.get(i) + "\t" + posProbability.get(i) + "\t" + negProbability.get(i) + "\t" + neuProbability.get(i));
-//						}
-							
-						
 					}
 					
 					 br.close();
@@ -115,32 +112,16 @@ public class ProbabilityCalculatorTestSmooth {
 					e.printStackTrace();
 				}
 				
-			// Zweiter Teil: Jedes Wort einmalig in der Liste
-			
 				
+		//Ab hier folgt der zweite Teil: Jedes Wort einmalig in der Liste (basierend auf der zuvor erstellten Liste)
+					
 		PrintWriter writer2 = null;
 		String fileName2 = "OccurrenceListTestSmooth.txt";
 		String line2 = null;
 		String[] parts2;
 		int trueCounter = 0;
 		int whileCounter = 0;
-		ArrayList<String> words2 = new ArrayList<String>();
 		ArrayList<String> lines = new ArrayList<String>();
-		Boolean[] isWritten = new Boolean[words.size()];
-		int equalCount = 0;
-		for (int i = 0; i < isWritten.length; i++){
-			isWritten[i] = false;
-		}
-		
-		
-		/*for (int i = 0; i < words.size(); i++){
-			isWritten[i] = false;
-			for (int x = 0; x <= i; x++){
-				if (x != i || words.get(i).equals(words.get(x))){
-					isWritten[i] = true;
-				}
-			}
-		}*/
 		
 				try {
 					writer2 = new PrintWriter("UniqueProbabilityListTestSmooth.txt", "UTF-8");
@@ -175,19 +156,7 @@ public class ProbabilityCalculatorTestSmooth {
 						}
 						
 						trueCounter = 0;
-						//if (line2.equals(lines.get(whileCounter)) == false){
-						//	writer2.println(line2);
-						//}
-						//words2.add(parts2[1]);
-						/*for (int i = 0; i < words.size(); i++){
-							if (parts2[1].equals(words.get(i))){
-								trueCounter += 1;
-							}
-						}
-						if (trueCounter == 1){
-							writer2.println(line2);
-							trueCounter = 0;
-						}*/
+						
 						whileCounter += 1;
 					}
 					br2.close();

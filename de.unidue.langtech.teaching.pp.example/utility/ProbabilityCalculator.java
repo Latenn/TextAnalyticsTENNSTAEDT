@@ -36,7 +36,7 @@ public class ProbabilityCalculator {
 		 float totalNeg = 0;
 		 float totalNeu = 0;
 		
-		 // Erstellen der Haeufigkeitsliste der Woerter und der entsprechenden Values
+		 //Ab hier der erste Teil: Erstellen der Haeufigkeitsliste der Woerter und der entsprechenden Values (enthaelt auch Wahrscheinlichkeiten)
 		        try {
 					writer = new PrintWriter("OccurrenceList.txt", "UTF-8");
 				} catch (FileNotFoundException e) {
@@ -57,7 +57,6 @@ public class ProbabilityCalculator {
 						words.add(parts[1]);
 						values.add(parts[2]);
 						types.add(parts[0]);
-						//writer.println(line);
 						System.out.println(line);
 						if (parts[2].equals("positive")){
 							totalPos += 1;
@@ -87,9 +86,11 @@ public class ProbabilityCalculator {
 							}
 						}
 						
+						//Berechnung der eigentlichen Wahrscheinlichkeiten zur späteren Klassifizierung im Classifier
 						posProb = positive / totalPos;
 						negProb = negative / totalNeg;
 						neuProb = neutral / totalNeu;
+						
 						posProbability.add(posProb);
 						negProbability.add(negProb);
 						neuProbability.add(neuProb);
@@ -105,16 +106,10 @@ public class ProbabilityCalculator {
 						posProb = 0;
 						negProb = 0;
 						neuProb = 0;
-						
-						
-						
+								
 					}
 					for (int i = 0; i < words.size(); i++){
-//						if (minAmountCounter.get(i) > 9.0){
-							writer.println(types.get(i) + "\t" + words.get(i) + "\t" + values.get(i) + "\t" + amount.get(i) + "\t" + posAmount.get(i) + "\t" + negAmount.get(i) + "\t" + neuAmount.get(i) + "\t" + posProbability.get(i) + "\t" + negProbability.get(i) + "\t" + neuProbability.get(i) + "\t" + totalPos + "\t" + totalNeg + "\t" + totalNeu);
-//						}
-							
-						
+							writer.println(types.get(i) + "\t" + words.get(i) + "\t" + values.get(i) + "\t" + amount.get(i) + "\t" + posAmount.get(i) + "\t" + negAmount.get(i) + "\t" + neuAmount.get(i) + "\t" + posProbability.get(i) + "\t" + negProbability.get(i) + "\t" + neuProbability.get(i) + "\t" + totalPos + "\t" + totalNeg + "\t" + totalNeu);				
 					}
 					
 					 br.close();
@@ -126,9 +121,9 @@ public class ProbabilityCalculator {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	
 				
-			// Zweiter Teil: Jedes Wort einmalig in der Liste
-			
+		//Ab hier folgt der zweite Teil: Jedes Wort einmalig in der Liste (basierend auf der zuvor erstellten Liste)
 				
 		PrintWriter writer2 = null;
 		String fileName2 = "OccurrenceList.txt";
@@ -136,23 +131,7 @@ public class ProbabilityCalculator {
 		String[] parts2;
 		int trueCounter = 0;
 		int whileCounter = 0;
-		ArrayList<String> words2 = new ArrayList<String>();
 		ArrayList<String> lines = new ArrayList<String>();
-		Boolean[] isWritten = new Boolean[words.size()];
-		int equalCount = 0;
-		for (int i = 0; i < isWritten.length; i++){
-			isWritten[i] = false;
-		}
-		
-		
-		/*for (int i = 0; i < words.size(); i++){
-			isWritten[i] = false;
-			for (int x = 0; x <= i; x++){
-				if (x != i || words.get(i).equals(words.get(x))){
-					isWritten[i] = true;
-				}
-			}
-		}*/
 		
 				try {
 					writer2 = new PrintWriter("UniqueProbabilityList.txt", "UTF-8");
@@ -187,19 +166,6 @@ public class ProbabilityCalculator {
 						}
 						
 						trueCounter = 0;
-						//if (line2.equals(lines.get(whileCounter)) == false){
-						//	writer2.println(line2);
-						//}
-						//words2.add(parts2[1]);
-						/*for (int i = 0; i < words.size(); i++){
-							if (parts2[1].equals(words.get(i))){
-								trueCounter += 1;
-							}
-						}
-						if (trueCounter == 1){
-							writer2.println(line2);
-							trueCounter = 0;
-						}*/
 						whileCounter += 1;
 					}
 					br2.close();
