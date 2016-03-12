@@ -158,11 +158,11 @@ public class Classifier
        neuValue *= 0.4950651;
        System.out.println(posValue + " "  + " "  + negValue + " " + neuValue);
        System.out.println(matchCount);
-       if (posValue > negValue || posValue > neuValue){
+       if (posValue > negValue && posValue > neuValue){
     	   detectedValue.setValue("positive");
-       }else if (negValue > posValue || negValue > neuValue){
+       }else if (negValue > posValue && negValue > neuValue){
     	   detectedValue.setValue("negative");
-       }else if (neuValue > posValue || neuValue > negValue){
+       }else if (neuValue > posValue && neuValue > negValue){
     	   detectedValue.setValue("neutral");
        }else { detectedValue.setValue("positive");}
     	

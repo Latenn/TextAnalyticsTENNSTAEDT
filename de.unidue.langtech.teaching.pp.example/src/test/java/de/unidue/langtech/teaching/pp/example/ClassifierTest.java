@@ -28,7 +28,7 @@ public class ClassifierTest {
 		AnalysisEngine segEngine = createEngine(segmenter);
 		segEngine.process(jcas);
 		
-		AnalysisEngineDescription classifier = createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListTest.txt");
+		AnalysisEngineDescription classifier = createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityList.txt");
 		AnalysisEngine classEngine = createEngine(classifier);
 		classEngine.process(jcas);
 		

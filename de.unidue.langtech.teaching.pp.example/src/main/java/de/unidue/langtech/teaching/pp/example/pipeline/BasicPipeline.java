@@ -32,14 +32,14 @@ public class BasicPipeline
         SimplePipeline.runPipeline(
                 CollectionReaderFactory.createReader(
                         MyReader.class,
-                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/TrainingdataFinal.txt"
+                        MyReader.PARAM_INPUT_FILE, "src/test/resources/test/Testdata.txt"
                 ),
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(BaselineExample.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                //AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityList.txt"),
-                //AnalysisEngineFactory.createEngineDescription(Printer.class)
-                AnalysisEngineFactory.createEngineDescription(TrainingModule.class)
+                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListTest.txt"),
+                AnalysisEngineFactory.createEngineDescription(Printer.class)
+                //AnalysisEngineFactory.createEngineDescription(TrainingModule.class)
                 //AnalysisEngineFactory.createEngineDescription(EvaluatorExample.class)
 //                AnalysisEngineFactory.createEngineDescription(ProbabilityCalculator.class)
 //                AnalysisEngineFactory.createEngineDescription(SnowballStemmer.class, SnowballStemmer.PARAM_LANGUAGE, "en"),

@@ -62,6 +62,11 @@ public class Printer
     private float negFMeasure;
     private float neuFMeasure;
     
+    private float averageFMeasure;
+    private float posNegFMeasure;
+    private float posNeuFMeasure;
+    private float negNeuFMeasure;
+    
     private int tokenCount = 1;
     
 
@@ -242,22 +247,28 @@ public class Printer
     {
         super.collectionProcessComplete();
         
-        posPrecision = posAsPos / (posAsPos + posAsNeg + posAsNeu);
-        negPrecision = negAsNeg / (negAsNeg + negAsPos + negAsNeu);
-        neuPrecision = neuAsNeu / (neuAsNeu + neuAsPos + neuAsNeg);
+        posRecall = posAsPos / (posAsPos + posAsNeg + posAsNeu);
+        negRecall = negAsNeg / (negAsNeg + negAsPos + negAsNeu);
+        neuRecall = neuAsNeu / (neuAsNeu + neuAsPos + neuAsNeg);
         
-        posRecall = posAsPos / (posAsPos + negAsPos + neuAsPos);
-        negRecall = negAsNeg / (negAsNeg + posAsNeg + neuAsNeg);
-        neuRecall = neuAsNeu / (neuAsNeu + posAsNeu + negAsNeu);
+        posPrecision = posAsPos / (posAsPos + negAsPos + neuAsPos);
+        negPrecision = negAsNeg / (negAsNeg + posAsNeg + neuAsNeg);
+        neuPrecision = neuAsNeu / (neuAsNeu + posAsNeu + negAsNeu);
         
         posFMeasure = (2 * posPrecision * posRecall) / (posPrecision + posRecall);
         negFMeasure = (2 * negPrecision * negRecall) / (negPrecision + negRecall);
         neuFMeasure = (2 * neuPrecision * neuRecall) / (neuPrecision + neuRecall);
         
+        averageFMeasure = (posFMeasure + negFMeasure + neuFMeasure) / 3;
+        
+        posNegFMeasure = (posFMeasure + negFMeasure) / 2;
+        posNeuFMeasure = (posFMeasure + neuFMeasure) / 2;
+        negNeuFMeasure = (negFMeasure + neuFMeasure) / 2;
+        
         
         System.out.println(correct + " out of " + nrOfDocuments + " are correct. " + correct/nrOfDocuments*100 + " %");
         try {
-			PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("OutputTest.txt", "UTF-8");
 			
 			writer.println("-----------------------");
 			writer.println("Overall");
@@ -267,6 +278,23 @@ public class Printer
 			writer.println("Amount of negative documents: " + negCount);
 			writer.println("Amount of neutral documents: " + neuCount);
 			writer.println("Accuracy: " + correct/nrOfDocuments*100 + "%");
+			writer.println(" ");
+			writer.println("Average F-Measure: " + averageFMeasure);
+			writer.println("Positive + Negative F-Measure: " + posNegFMeasure);
+			writer.println("Positive + Neutral F-Measure: " + posNeuFMeasure);
+			writer.println("Negative + Neutral F-Measure: " + negNeuFMeasure);
+			writer.println(" ");
+			writer.println("Neutral detected as Neutral: " + neuAsNeu);
+			writer.println("Positive detected as Neutral: " + posAsNeu);
+			writer.println("Negative detected as Neutral: " + negAsNeu);
+			writer.println(" ");
+			writer.println("Positive detected as Positive: " + posAsPos);
+			writer.println("Negative detected as Positive: " + negAsPos);
+			writer.println("Neutral detected as Positive: " + neuAsPos);
+			writer.println(" ");
+			writer.println("Negative detected as Negative: " + negAsNeg);
+			writer.println("Positive detected as Negative: " + posAsNeg);
+			writer.println("Neutral detected as Negative: " + neuAsNeg);
 			writer.println(" ");
 			writer.println("-----------------------");
 			writer.println("Positive");
@@ -289,6 +317,25 @@ public class Printer
 			writer.println("Recall: " + neuRecall*100 + "%");
 			writer.println("F-Measure: " + neuFMeasure);
 			
+			/*Testzweck
+			writer.println(" ");
+			writer.println(" ");
+			writer.println(" ");
+			writer.println(" ");
+			writer.println(" ");
+			
+			writer.println("Neutrale als neutral: " + neuAsNeu);
+			writer.println("Positive als neutral: " + posAsNeu);
+			writer.println("Negative als neutral: " + negAsNeu);
+			writer.println(" ");
+			writer.println("Positive als positiv: " + posAsPos);
+			writer.println("Negative als positiv: " + negAsPos);
+			writer.println("Neutrale als positiv: " + neuAsPos);
+			writer.println(" ");
+			writer.println("Negative als negativ: " + negAsNeg);
+			writer.println("Positive als negativ: " + posAsNeg);
+			writer.println("Neutrale als negativ: " + neuAsNeg);
+			*/
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
