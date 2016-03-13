@@ -27,7 +27,7 @@ public class BasicPipeline
                 //Fuer Training: Classifier und Printer aus der Pipeline entfernen und nach StanfordPosTagger lediglich TrainingModule laufen lassen
                 AnalysisEngineFactory.createEngineDescription(BreakIteratorSegmenter.class),
                 AnalysisEngineFactory.createEngineDescription(StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "en"),
-                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListTestSmooth.txt"),
+                AnalysisEngineFactory.createEngineDescription(Classifier.class, Classifier.PARAM_INPUT_FILE, "src/test/resources/test/UniqueProbabilityListSmooth.txt"),
                 AnalysisEngineFactory.createEngineDescription(Printer.class)
                 //AnalysisEngineFactory.createEngineDescription(TrainingModule.class)
         );

@@ -195,7 +195,7 @@ public class Printer
         try {
         	
         	//Outputfilename wird hier fuer unterschiedliche Outputs (je nach verwendeter Liste) manuell angepasst
-			PrintWriter writer = new PrintWriter("OutputTestSmooth.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("OutputSmooth.txt", "UTF-8");
 			
 			writer.println("-----------------------");
 			writer.println("Overall");
