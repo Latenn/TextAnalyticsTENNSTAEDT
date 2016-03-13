@@ -20,9 +20,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
 import de.unidue.langtech.teaching.pp.type.DetectedValue;
-import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 
 public class Classifier
     extends JCasAnnotator_ImplBase

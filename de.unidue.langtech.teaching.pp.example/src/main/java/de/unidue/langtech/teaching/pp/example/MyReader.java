@@ -15,7 +15,6 @@ import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
 
 import de.unidue.langtech.teaching.pp.type.DetectedValue;
-import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 

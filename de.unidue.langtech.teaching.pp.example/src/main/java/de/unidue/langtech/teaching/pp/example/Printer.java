@@ -18,9 +18,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.unidue.langtech.teaching.pp.type.DetectedLanguage;
 import de.unidue.langtech.teaching.pp.type.DetectedValue;
-import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 public class Printer
@@ -197,7 +195,7 @@ public class Printer
         try {
         	
         	//Outputfilename wird hier fuer unterschiedliche Outputs (je nach verwendeter Liste) manuell angepasst
-			PrintWriter writer = new PrintWriter("OutputSmooth.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("TestTestTest.txt", "UTF-8");
 			
 			writer.println("-----------------------");
 			writer.println("Overall");
