@@ -10,7 +10,6 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
 import de.unidue.langtech.teaching.pp.example.MyReader;
-import de.unidue.langtech.teaching.pp.type.GoldLanguage;
 import de.unidue.langtech.teaching.pp.type.GoldValue;
 
 public class MyReaderTest {
